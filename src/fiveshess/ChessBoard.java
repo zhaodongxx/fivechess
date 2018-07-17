@@ -9,7 +9,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class ChessPanel extends JPanel {
+/**
+ *
+ */
+public class ChessBoard extends JPanel {
 
     private static int space = 40;
     private static int grids = 15;
@@ -21,16 +24,16 @@ public class ChessPanel extends JPanel {
     public int currColor = 1;
 
     private JMenuBar chessJMenuBar = new JMenuBar();
-    private JMenu optMenu = new JMenu("Option");
-    private JMenu helpMenu = new JMenu("Help");
-    private JMenuItem startMenuItem = new JMenuItem("Start");
-    private JMenuItem exitMenuItem = new JMenuItem("Exit");
-    private JMenuItem aboutMenuItem = new JMenuItem("About");
+    private JMenu optMenu = new JMenu("选项");
+    private JMenu helpMenu = new JMenu("帮助");
+    private JMenuItem startMenuItem = new JMenuItem("开始");
+    private JMenuItem exitMenuItem = new JMenuItem("退出");
+    private JMenuItem aboutMenuItem = new JMenuItem("关于");
 
     private ActionListener startHandler = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             clearGrids();
-            currColor = 1;  //
+            currColor = 1;
             gameOver = false;
             repaint();
         }
@@ -50,7 +53,7 @@ public class ChessPanel extends JPanel {
     };
 
     //初始化棋盘
-    public ChessPanel(int space, int grids) {
+    public ChessBoard(int space, int grids) {
         this.space = space;
         this.grids = grids;
         this.rad = space / 2;
@@ -159,7 +162,9 @@ public class ChessPanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         try {
-            BufferedImage bi = ImageIO.read(new File("C:\\project\\fivechess\\background.jpg"));
+            String basePath = System.getProperty("user.dir");
+            System.out.println(basePath + "\\background.jpg");
+            BufferedImage bi = ImageIO.read(new File(basePath + "\\background.jpg"));
             g.drawImage(bi, 0, 0, this);
         } catch (IOException e) {
             e.printStackTrace();
