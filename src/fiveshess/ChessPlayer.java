@@ -24,4 +24,5 @@ public class ChessPlayer extends JFrame {
     public static void main(String arg[]) {
         new ChessPlayer("Îå×ÓÆå_V1.0");
     }
+//    public void
 }

@@ -14,7 +14,7 @@ public class AI {
     public int[][] chesses = new int[grids + 1][grids + 1];
 
     public AI(int currColor, int[][] chesses) {
-        this.currColor = currColor;
+        AI.currColor = currColor;
         this.chesses = chesses;
     }
 
@@ -29,13 +29,13 @@ public class AI {
                 if (chesses[i][j] != 1 && chesses[i][j] != 2) {
                     int curPoint = aiRule(i, j);
                     turnColor();
-                    int curPoint2 = aiRule(i, j);//对手的棋
+                    //对手的棋
+                    int curPoint2 = aiRule(i, j);
                     turnColor();
                     if (curPoint + curPoint2 > point) {
                         point = curPoint + curPoint2;
                         optimalX = i;
                         optimalY = j;
-
                     }
                 }
             }
@@ -47,7 +47,6 @@ public class AI {
         list.add(optimalY);
         return list;
     }
-
 
     private int aiRule(int x, int y) {
         //Y轴。
@@ -116,7 +115,6 @@ public class AI {
                 break;
             }
         }
-
         for (int i = 1; i <= 4; i++) {
             if (x + i < grids && y - i > 0 && currColor == chesses[x + i][y - i]) {
                 count++;
@@ -158,7 +156,8 @@ public class AI {
     }
 
     private int turnColor(int color) {
-        if (color == 1) {   //1=白棋;2=黑棋
+        //1=白棋;2=黑棋
+        if (color == 1) {
             color = 2;
         } else {
             color = 1;

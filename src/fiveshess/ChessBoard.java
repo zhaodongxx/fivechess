@@ -14,9 +14,9 @@ import java.util.List;
  */
 public class ChessBoard extends JPanel {
 
-    private static int space = 40;
-    private static int grids = 15;
-    public static int rad = space / 2;
+    private int space = 40;
+    private int grids = 15;
+    public int rad = space / 2;
     String message = " ";
     static boolean gameOver = false;
 
@@ -31,6 +31,7 @@ public class ChessBoard extends JPanel {
     private JMenuItem aboutMenuItem = new JMenuItem("关于");
 
     private ActionListener startHandler = new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent e) {
             clearGrids();
             currColor = 1;
@@ -38,21 +39,27 @@ public class ChessBoard extends JPanel {
             repaint();
         }
     };
-    //关于
+
+    /**
+     * 关于
+     */
     private ActionListener aboutHandler = new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent e) {
             JOptionPane.showMessageDialog(null, " zhaodongxx@outlook.com");
         }
     };
 
-    //退出
+    /**
+     * 退出
+     */
     private ActionListener exitHandler = new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
         }
     };
 
-    //初始化棋盘
     public ChessBoard(int space, int grids) {
         this.space = space;
         this.grids = grids;
@@ -69,11 +76,12 @@ public class ChessBoard extends JPanel {
         optMenu.add(startMenuItem);
         optMenu.add(exitMenuItem);
         helpMenu.add(aboutMenuItem);
+        add(BorderLayout.EAST, new JButton("EAST"));
     }
 
+
     private MouseListener playChessHandler = new MouseAdapter() {
-
-
+        @Override
         public void mousePressed(MouseEvent e) {
             int x = e.getX();
             int y = e.getY();
@@ -84,9 +92,9 @@ public class ChessBoard extends JPanel {
                         chesses[round(x)][round(y)] = currColor;
                         repaint();
                         judge(round(x), round(y));
-                        System.out.println(round(x) + " " + round(y));
                         turncolor();
-                        if (!gameOver) {  //AI
+                        //AI
+                        if (!gameOver) {
                             AI ai = new AI(currColor, chesses);
                             List<Integer> list = ai.aiPlayer();
                             repaint();
@@ -119,14 +127,14 @@ public class ChessBoard extends JPanel {
      */
     public void drawGrids(Graphics g) {
         g.setColor(Color.black);
+
+        //画线
         for (int x = 1; x <= 15; x++) {
             g.drawLine(space, space * x, space * grids, space * x);
             g.drawLine(space * x, space, space * x, space * grids);
         }
 
-        /**
-         * ????????
-         */
+        //画点
         g.setColor(Color.BLACK);
         g.fillOval(4 * space - 4, 4 * space - 4, 8, 8);
         g.fillOval(12 * space - 4, 4 * space - 4, 8, 8);
@@ -138,7 +146,6 @@ public class ChessBoard extends JPanel {
         g.fillOval(8 * space - 4, 4 * space - 4, 8, 8);
         g.fillOval(12 * space - 4, 8 * space - 4, 8, 8);
     }
-
 
     /**
      * @param g
@@ -160,6 +167,7 @@ public class ChessBoard extends JPanel {
         }
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         try {
             String basePath = System.getProperty("user.dir");
@@ -175,13 +183,19 @@ public class ChessBoard extends JPanel {
         drawGrids(g);
         for (int i = 1; i <= grids; i++) {
             for (int j = 1; j <= grids; j++) {
-                if (chesses[i][j] != 0)
+                if (chesses[i][j] != 0) {
                     drawChess(g, i, j, chesses[i][j]);
+                }
             }
         }
     }
 
-    //判断胜负
+    /**
+     * 判断胜负
+     *
+     * @param x
+     * @param y
+     */
     private void judge(int x, int y) {
         int count = 1;
         //Y
