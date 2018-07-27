@@ -102,7 +102,7 @@ public class ChessBoard extends JPanel {
                             turncolor();
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "once again");
+                        JOptionPane.showMessageDialog(null, "再来一次");
                     }
                 }
             } else {
