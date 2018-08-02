@@ -73,7 +73,7 @@ public class ChessBoard extends JPanel {
         optMenu.add(startMenuItem);
         optMenu.add(exitMenuItem);
         helpMenu.add(aboutMenuItem);
-        add(BorderLayout.EAST, new JButton("EAST"));
+//        add(BorderLayout.EAST, new JButton("EAST"));
     }
 
 
