@@ -108,6 +108,7 @@ public class ChessBoard extends JPanel {
         }
     };
 
+
     public int round(float a) {
         float f = a / space;
         return Math.round(f);
