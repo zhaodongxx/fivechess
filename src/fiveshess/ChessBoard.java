@@ -43,7 +43,7 @@ public class ChessBoard extends JPanel {
     private ActionListener aboutHandler = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(null, " zhaodongxx@outlook.com");
+            JOptionPane.showMessageDialog(null, "zhaodongxx@outlook.com");
         }
     };
 
