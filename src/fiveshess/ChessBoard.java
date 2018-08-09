@@ -48,7 +48,7 @@ public class ChessBoard extends JPanel {
     };
 
     /**
-     * ÍË³ö
+     *
      */
     private ActionListener exitHandler = new ActionListener() {
         @Override
