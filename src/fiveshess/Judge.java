@@ -1,5 +1,8 @@
 package fiveshess;
 
+import javax.swing.*;
+import java.awt.*;
+
 /**
  * 裁判
  *
