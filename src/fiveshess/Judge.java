@@ -1,8 +1,5 @@
 package fiveshess;
 
-import javax.swing.*;
-import java.awt.*;
-
 /**
  * 裁判
  *
@@ -12,26 +9,26 @@ import java.awt.*;
  */
 public class Judge {
 
-    public isvictory
-    this.space =space;
-    this.grids =grids;
-    this.rad =space /2;
-
-    setBackground(new Color(200, 100,50));
-
-    setSize(760,760);
-    startMenuItem.addActionListener(startHandler);
-    exitMenuItem.addActionListener(exitHandler);
-    aboutMenuItem.addActionListener(aboutHandler);
-
-    addMouseListener(playChessHandler);
-
-    chessJMenuBar.add(optMenu);
-    chessJMenuBar.add(helpMenu);
-    optMenu.add(startMenuItem);
-    optMenu.add(exitMenuItem);
-    helpMenu.add(aboutMenuItem);
-
-    add(BorderLayout.EAST, new JButton("EAST"));
+//    public isvictory
+//    this.space =space;
+//    this.grids =grids;
+//    this.rad =space /2;
+//
+//    setBackground(new Color(200, 100,50));
+//
+//    setSize(760,760);
+//    startMenuItem.addActionListener(startHandler);
+//    exitMenuItem.addActionListener(exitHandler);
+//    aboutMenuItem.addActionListener(aboutHandler);
+//
+//    addMouseListener(playChessHandler);
+//
+//    chessJMenuBar.add(optMenu);
+//    chessJMenuBar.add(helpMenu);
+//    optMenu.add(startMenuItem);
+//    optMenu.add(exitMenuItem);
+//    helpMenu.add(aboutMenuItem);
+//
+//    add(BorderLayout.EAST, new JButton("EAST"));
 
 }
