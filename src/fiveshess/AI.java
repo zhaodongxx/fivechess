@@ -11,7 +11,7 @@ public class AI {
     private static int currColor;
     private static int grids = 15;
 
-    public int[][] chesses = new int[grids + 1][grids + 1];
+    public int[][] chesses;
 
     public AI(int currColor, int[][] chesses) {
         AI.currColor = currColor;

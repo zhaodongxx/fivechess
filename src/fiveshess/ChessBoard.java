@@ -12,66 +12,40 @@ import java.util.List;
 public class ChessBoard extends JPanel {
 
     private int space = 40;
-    private int grids = 15;
-    public int rad = space / 2;
+    public static int GRIDS_NUM = 15;
+    public int rad;
     String message = " ";
     static boolean gameOver = false;
 
-    public int[][] chesses = new int[grids + 1][grids + 1];
-    public int currColor = 1;
+    public int[][] chesses = new int[GRIDS_NUM + 1][GRIDS_NUM + 1];
+    public ChessmanEnum chessman = ChessmanEnum.BLACK_CHESS;
 
     private JMenuBar chessJMenuBar = new JMenuBar();
-    private JMenu optMenu = new JMenu("—°œÓ");
-    private JMenu helpMenu = new JMenu("∞Ô÷˙");
-    private JMenuItem startMenuItem = new JMenuItem("ø™ º");
-    private JMenuItem exitMenuItem = new JMenuItem("ÕÀ≥ˆ");
-    private JMenuItem aboutMenuItem = new JMenuItem("πÿ”⁄");
-
-    private ActionListener startHandler = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            clearGrids();
-            currColor = 1;
-            gameOver = false;
-            repaint();
-        }
-    };
+    private JMenu optMenu = new JMenu("ÈÄâÈ°π");
+    private JMenu helpMenu = new JMenu("Â∏ÆÂä©");
+    private JMenuItem startMenuItem = new JMenuItem("ÂºÄÂßã");
+    private JMenuItem exitMenuItem = new JMenuItem("ÈÄÄÂá∫");
+    private JMenuItem aboutMenuItem = new JMenuItem("ÂÖ≥‰∫é");
 
     /**
-     * πÿ”⁄
+     * Ê£ãÁõòÊûÑÈÄ†ÊñπÊ≥ï
      */
-    private ActionListener aboutHandler = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(null, "zhaodongxx@outlook.com");
-        }
-    };
-
-    /**
-     * ÕÀ≥ˆ
-     */
-    private ActionListener exitHandler = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            System.exit(0);
-        }
-    };
-
-    /**
-     * ∆Â≈Ãππ‘Ï∑Ω∑®
-     *
-     * @param space
-     * @param grids
-     */
-    public ChessBoard(int space, int grids) {
-        this.space = space;
-        this.grids = grids;
+    public ChessBoard() {
         this.rad = space / 2;
         setBackground(new Color(200, 100, 50));
         setSize(760, 760);
-        startMenuItem.addActionListener(startHandler);
-        exitMenuItem.addActionListener(exitHandler);
-        aboutMenuItem.addActionListener(aboutHandler);
+
+        // ÊåâÈíÆ-ÂºÄÂßã
+        startMenuItem.addActionListener(e -> {
+            clearGrids();
+            chessman = ChessmanEnum.BLACK_CHESS;
+            gameOver = false;
+            repaint();
+        });
+        // ÊåâÈíÆ-ÈÄÄÂá∫
+        exitMenuItem.addActionListener(e -> System.exit(0));
+        // ÊåâÈíÆ-ÂÖ≥‰∫é
+        aboutMenuItem.addActionListener(e -> JOptionPane.showMessageDialog(null, "zhaodongxx@outlook.com"));
         addMouseListener(playChessHandler);
 
         chessJMenuBar.add(optMenu);
@@ -79,35 +53,32 @@ public class ChessBoard extends JPanel {
         optMenu.add(startMenuItem);
         optMenu.add(exitMenuItem);
         helpMenu.add(aboutMenuItem);
-//        add(BorderLayout.EAST, new JButton("EAST"));
     }
-
 
     private MouseListener playChessHandler = new MouseAdapter() {
         @Override
         public void mousePressed(MouseEvent e) {
             int x = e.getX();
             int y = e.getY();
+            // Ê∏∏ÊàèÁªßÁª≠
             boolean gameContinues = !gameOver;
-            boolean pressedWithinTheScope = x <= grids * space && x >= 0 && y <= grids * space && y >= 0;
+            boolean pressedWithinTheScope = x <= GRIDS_NUM * space && x >= 0 && y <= GRIDS_NUM * space && y >= 0;
 
             if (gameContinues) {
                 if (pressedWithinTheScope) {
                     if (chesses[round(x)][round(y)] == 0) {
-                        chesses[round(x)][round(y)] = currColor;
+                        chesses[round(x)][round(y)] = chessman.getCode();
                         repaint();
                         judge(round(x), round(y));
-                        turncolor();
                         // AI
                         if (gameContinues) {
-                            AI ai = new AI(currColor, chesses);
+                            AI ai = new AI(chessman.getCode(), chesses);
                             List<Integer> list = ai.aiPlayer();
                             repaint();
                             judge(list.get(0), list.get(1));
-                            turncolor();
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "‘Ÿ¿¥“ª¥Œ");
+                        JOptionPane.showMessageDialog(null, "ÂÜçÊù•‰∏ÄÊ¨°");
                     }
                 }
             } else {
@@ -127,20 +98,20 @@ public class ChessBoard extends JPanel {
     }
 
     /**
-     * ª≠∆Â≈Ã
+     * ÁîªÊ£ãÁõò
      *
      * @param g
      */
     public void drawGrids(Graphics g) {
         g.setColor(Color.black);
 
-        //ª≠œﬂ
+        //ÁîªÁ∫ø
         for (int x = 1; x <= 15; x++) {
-            g.drawLine(space, space * x, space * grids, space * x);
-            g.drawLine(space * x, space, space * x, space * grids);
+            g.drawLine(space, space * x, space * GRIDS_NUM, space * x);
+            g.drawLine(space * x, space, space * x, space * GRIDS_NUM);
         }
 
-        //ª≠µ„
+        //ÁîªÁÇπ
         g.setColor(Color.BLACK);
         g.fillOval(4 * space - 4, 4 * space - 4, 8, 8);
         g.fillOval(12 * space - 4, 4 * space - 4, 8, 8);
@@ -160,14 +131,13 @@ public class ChessBoard extends JPanel {
      * @param color
      */
     public void drawChess(Graphics g, int x, int y, int color) {
-
         g.setColor(color == 1 ? Color.BLACK : Color.WHITE);
         g.fillOval(x * space - rad, y * space - rad, space, space);
     }
 
     private void clearGrids() {
-        for (int i = 0; i <= grids; i++) {
-            for (int j = 0; j <= grids; j++) {
+        for (int i = 0; i <= GRIDS_NUM; i++) {
+            for (int j = 0; j <= GRIDS_NUM; j++) {
                 chesses[i][j] = 0;
             }
         }
@@ -187,8 +157,8 @@ public class ChessBoard extends JPanel {
         g.drawString("-" + message, 210, 26);
 
         drawGrids(g);
-        for (int i = 1; i <= grids; i++) {
-            for (int j = 1; j <= grids; j++) {
+        for (int i = 1; i <= GRIDS_NUM; i++) {
+            for (int j = 1; j <= GRIDS_NUM; j++) {
                 if (chesses[i][j] != 0) {
                     drawChess(g, i, j, chesses[i][j]);
                 }
@@ -197,105 +167,22 @@ public class ChessBoard extends JPanel {
     }
 
     /**
-     * ≈–∂œ §∏∫
+     * Âà§Êñ≠ËÉúË¥ü
      *
      * @param x
      * @param y
      */
     private void judge(int x, int y) {
-        int count = 1;
-        //Y
-        for (int i = 1; i <= 4; i++) {
-            if (y + i < grids + 1 && currColor == chesses[x][y + i]) {
-                count++;
-            } else {
-                break;
-            }
-        }
-        for (int i = 1; i <= 4; i++) {
-            if (y - i > 0 && currColor == chesses[x][y - i]) {
-                count++;
-            } else {
-                break;
-            }
-        }
-        if (count >= 5) {
+        boolean win = Judge.win(chesses, chessman.getCode(), x, y);
+        if (win) {
             gameOver = true;
-            JOptionPane.showMessageDialog(null, "GAME OVER");
-        }
-        //X
-        count = 1;
-        for (int i = 1; i <= 4; i++) {
-            if (x + i < grids + 1 && currColor == chesses[x + i][y]) {
-                count++;
-            } else {
-                break;
-            }
-        }
+            StringBuilder sb = new StringBuilder();
+            sb.append("GAME OVER~");
+            sb.append(chessman.getName() + " Ëé∑ÂæóËÉúÂà©");
 
-        for (int i = 1; i <= 4; i++) {
-            if (x - i > 0 && currColor == chesses[x - i][y]) {
-                count++;
-
-            } else {
-                break;
-            }
+            JOptionPane.showMessageDialog(null, sb.toString());
         }
-        if (count >= 5) {
-            gameOver = true;
-            JOptionPane.showMessageDialog(null, "GAME OVER");
-        }
-
-        count = 1;
-        for (int i = 1; i <= 4; i++) {
-            if (x + i < grids + 1 && y + i < grids + 1 && currColor == chesses[x + i][y + i]) {
-                count++;
-            } else {
-                break;
-            }
-        }
-
-        for (int i = 1; i <= 4; i++) {
-            if (x - i > 0 && y - i > 0 && currColor == chesses[x - i][y - i]) {
-                count++;
-            } else {
-                break;
-            }
-        }
-        if (count >= 5) {
-            gameOver = true;
-            JOptionPane.showMessageDialog(null, "GAME OVER");
-        }
-
-        //  "\"
-        count = 1;
-        for (int i = 1; i <= 4; i++) {
-            if (x - i > 0 && y + i < grids + 1 && currColor == chesses[x - i][y + i]) {
-                count++;
-            } else {
-                break;
-            }
-        }
-
-        for (int i = 1; i <= 4; i++) {
-            if (x + i < grids + 1 && y - i > 0 && currColor == chesses[x + i][y - i]) {
-                count++;
-
-            } else {
-                break;
-            }
-        }
-        if (count >= 5) {
-            gameOver = true;
-            JOptionPane.showMessageDialog(null, "GAME OVER");
-        }
-    }
-
-    private void turncolor() {
-        if (currColor == 1) {
-            currColor = 2;
-        } else {
-            currColor = 1;
-        }
+        // ËøòÊâã
+        chessman = chessman.next();
     }
 }

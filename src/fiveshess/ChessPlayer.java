@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class ChessPlayer extends JFrame {
 
-    private ChessBoard chessPanel = new ChessBoard(40, 15);
-    public static final String TITLE = "Îå×ÓÆå_V1.0";
+    private ChessBoard chessPanel = new ChessBoard();
+    public static final String TITLE = "äº”å­æ£‹_V1.0";
 
     public ChessPlayer() {
         super(TITLE);
@@ -16,9 +16,9 @@ public class ChessPlayer extends JFrame {
         setJMenuBar(chessPanel.getMenuBar());
         setSize(760, 760);
         setVisible(true);
-        //Ê¹´°Ìå´óĞ¡²»¿É¸Ä±ä¡£
+        //ä½¿çª—ä½“å¤§å°ä¸å¯æ”¹å˜ã€‚
         setResizable(false);
-        //Ê¹´°Ìå¾ÓÖĞ¡£
+        //ä½¿çª—ä½“å±…ä¸­ã€‚
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
