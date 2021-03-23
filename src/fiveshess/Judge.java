@@ -12,11 +12,10 @@ public class Judge {
 
     /**
      * 判断胜负
-     *
-     * @param x
-     * @param y
      */
-    public static boolean win(int[][] chesses, int currColor, int x, int y) {
+    public static boolean win(int[][] chesses, int currColor, Point point) {
+        int x = point.getX();
+        int y = point.getY();
         int count = 1;
         //Y
         for (int i = 1; i <= 4; i++) {

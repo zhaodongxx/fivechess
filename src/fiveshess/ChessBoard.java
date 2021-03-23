@@ -3,11 +3,12 @@ package fiveshess;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class ChessBoard extends JPanel {
 
@@ -61,21 +62,20 @@ public class ChessBoard extends JPanel {
             int x = e.getX();
             int y = e.getY();
             // 游戏继续
-            boolean gameContinues = !gameOver;
             boolean pressedWithinTheScope = x <= GRIDS_NUM * space && x >= 0 && y <= GRIDS_NUM * space && y >= 0;
 
-            if (gameContinues) {
+            if (!gameOver) {
                 if (pressedWithinTheScope) {
                     if (chesses[round(x)][round(y)] == 0) {
                         chesses[round(x)][round(y)] = chessman.getCode();
                         repaint();
-                        judge(round(x), round(y));
+                        judge(new Point(round(x), round(y)));
                         // AI
-                        if (gameContinues) {
+                        if (!gameOver) {
                             AI ai = new AI(chessman.getCode(), chesses);
-                            List<Integer> list = ai.aiPlayer();
+                            Point point = ai.aiPlayer();
                             repaint();
-                            judge(list.get(0), list.get(1));
+                            judge(point);
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "再来一次");
@@ -86,7 +86,6 @@ public class ChessBoard extends JPanel {
             }
         }
     };
-
 
     public int round(float a) {
         float f = a / space;
@@ -147,7 +146,6 @@ public class ChessBoard extends JPanel {
     public void paintComponent(Graphics g) {
         try {
             String basePath = System.getProperty("user.dir");
-            System.out.println(basePath + "\\background.jpg");
             BufferedImage bi = ImageIO.read(new File(basePath + "\\background.jpg"));
             g.drawImage(bi, 0, 0, this);
         } catch (IOException e) {
@@ -168,12 +166,9 @@ public class ChessBoard extends JPanel {
 
     /**
      * 判断胜负
-     *
-     * @param x
-     * @param y
      */
-    private void judge(int x, int y) {
-        boolean win = Judge.win(chesses, chessman.getCode(), x, y);
+    private void judge(Point point) {
+        boolean win = Judge.win(chesses, chessman.getCode(), point);
         if (win) {
             gameOver = true;
             StringBuilder sb = new StringBuilder();

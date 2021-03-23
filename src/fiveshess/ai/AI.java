@@ -1,4 +1,8 @@
-package fiveshess;
+package fiveshess.ai;
+
+import fiveshess.Point;
+
+import java.util.regex.Pattern;
 
 /**
  * Created by zhaod on 2017/2/16 10:31
@@ -146,5 +150,30 @@ public class AI {
     private void turnColor() {
         //1=白棋;2=黑棋
         currColor = (currColor == 2 ? 1 : 2);
+    }
+
+
+//    /**
+//     * o代表空位；
+//     * m代表己方颜色；
+//     */
+//    private int getScore(String layout) {
+//        int length = layout.length();
+//
+//        // 死一、死二、死三、死四
+//        if (length < 5) {
+//            return 0;
+//        }
+//
+//        // 眠二
+//        if (isMatch("^mmo", layout)) {
+//            return 2;
+//        }
+//
+//
+//    }
+
+    public static boolean isMatch(String regex, CharSequence input) {
+        return input != null && input.length() > 0 && Pattern.matches(regex, input);
     }
 }
