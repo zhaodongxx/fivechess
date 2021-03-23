@@ -57,6 +57,12 @@ public class ChessBoard extends JPanel {
         }
     };
 
+    /**
+     * 棋盘构造方法
+     *
+     * @param space
+     * @param grids
+     */
     public ChessBoard(int space, int grids) {
         this.space = space;
         this.grids = grids;
@@ -82,16 +88,18 @@ public class ChessBoard extends JPanel {
         public void mousePressed(MouseEvent e) {
             int x = e.getX();
             int y = e.getY();
+            boolean gameContinues = !gameOver;
+            boolean pressedWithinTheScope = x <= grids * space && x >= 0 && y <= grids * space && y >= 0;
 
-            if (gameOver == false) {
-                if (x <= grids * space && x >= 0 && y <= grids * space && y >= 0) {
+            if (gameContinues) {
+                if (pressedWithinTheScope) {
                     if (chesses[round(x)][round(y)] == 0) {
                         chesses[round(x)][round(y)] = currColor;
                         repaint();
                         judge(round(x), round(y));
                         turncolor();
-                        //AI
-                        if (!gameOver) {
+                        // AI
+                        if (gameContinues) {
                             AI ai = new AI(currColor, chesses);
                             List<Integer> list = ai.aiPlayer();
                             repaint();
@@ -103,7 +111,7 @@ public class ChessBoard extends JPanel {
                     }
                 }
             } else {
-                //JOptionPane.showMessageDialog(null, "GAME OVER");
+                // JOptionPane.showMessageDialog(null, "GAME OVER");
             }
         }
     };

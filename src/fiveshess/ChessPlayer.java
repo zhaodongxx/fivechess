@@ -4,10 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ChessPlayer extends JFrame {
-    private ChessBoard chessPanel = new ChessBoard(40, 15);
 
-    public ChessPlayer(String title) {
-        super(title);
+    private ChessBoard chessPanel = new ChessBoard(40, 15);
+    public static final String TITLE = "五子棋_V1.0";
+
+    public ChessPlayer() {
+        super(TITLE);
 
         Container contentPane = getContentPane();
         contentPane.add(chessPanel);
@@ -22,7 +24,7 @@ public class ChessPlayer extends JFrame {
     }
 
     public static void main(String arg[]) {
-        new ChessPlayer("五子棋_V1.0");
+        new ChessPlayer();
     }
 //    public void
 }

@@ -154,14 +154,4 @@ public class AI {
         //1=白棋;2=黑棋
         currColor = (currColor == 2 ? 1 : 2);
     }
-
-    private int turnColor(int color) {
-        //1=白棋;2=黑棋
-        if (color == 1) {
-            color = 2;
-        } else {
-            color = 1;
-        }
-        return color;
-    }
 }
