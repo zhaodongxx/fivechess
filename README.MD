@@ -2,7 +2,7 @@
 
 一个简易的五子棋项目，实现了简单的人机对战。
 
-![](./img/demo.png)
+![](https://github.com/zhaodongxx/static/blob/master/demo.png)
 
 ### 其他
 
