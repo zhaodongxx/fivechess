@@ -118,10 +118,6 @@ public class Judge {
         int block = 0;
         int empty = 0;
 
-        if (x == 7 && y == 8) {
-            System.out.println(1);
-        }
-
         // 【-】 右边的5个点位
         for (int i = 1; i < limit; i++) {
             if (xi + i > length - 1) {
