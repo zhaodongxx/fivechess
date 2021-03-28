@@ -5,6 +5,10 @@
 *.pydevproject
 .project
 .metadata
+.idea/
+.idea
+.settings/
+.settings
 bin/
 tmp/
 data/
@@ -175,3 +179,4 @@ rebel.xml
 ## Maven
 ############
 .mvn/
+.idea/**

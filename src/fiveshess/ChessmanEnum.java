@@ -1,5 +1,7 @@
 package fiveshess;
 
+import java.awt.*;
+
 /**
  * 棋子
  *
@@ -8,19 +10,21 @@ package fiveshess;
  */
 public enum ChessmanEnum {
 
-    BLACK_CHESS(1, "黑棋"),
-    WHITE_CHESS(2, "白棋"),
+    BLACK_CHESS(1, "黑棋", Color.BLACK),
+    WHITE_CHESS(2, "白棋", Color.WHITE),
     ;
 
-    private Integer code;
+    private int code;
     private String name;
+    private Color color;
 
-    ChessmanEnum(Integer code, String name) {
+    ChessmanEnum(Integer code, String name, Color color) {
         this.code = code;
         this.name = name;
+        this.color = color;
     }
 
-    public Integer getCode() {
+    public int getCode() {
         return code;
     }
 
@@ -28,7 +32,22 @@ public enum ChessmanEnum {
         return name;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
+
     public ChessmanEnum next() {
         return this == BLACK_CHESS ? WHITE_CHESS : BLACK_CHESS;
+    }
+
+    public static ChessmanEnum getByCode(Integer code) {
+        for (ChessmanEnum value : values()) {
+            if (value.getCode() == code) {
+                return value;
+            }
+        }
+
+        return null;
     }
 }

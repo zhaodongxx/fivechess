@@ -2,7 +2,21 @@
 
 一个简易的五子棋项目，实现了简单的人机对战。
 
-![](https://github.com/zhaodongxx/static/blob/master/demo.png)
+![](https://github.com/zhaodongxx/static/blob/master/demo.jpg)
+
+
+### 更新日志
+
+#### 2017-02-15
+    - 增加了人机对战功能
+#### 2021-03-28
+    - 在棋子上增加了序号
+    - 调整了算法，提高了棋力
+
+### todo
+
+- [ ] 极大极小值算法
+- [ ] αβ减枝算法
 
 ### 其他
 
