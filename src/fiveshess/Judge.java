@@ -121,7 +121,7 @@ public class Judge {
             }
         }
 
-        return (chessmanEnum == ChessmanEnum.BLACK_CHESS ? 1 : -1) * (blackScore - whiteScore);
+        return whiteScore - blackScore;
     }
 
     /**
@@ -241,7 +241,7 @@ public class Judge {
                 count++;
             }
         }
-        score += evaluateLineScore(count, empty, block);
+        score = Math.max(evaluateLineScore(count, empty, block), score);
 
         // 【/】 东北方位的点位
         count = 1;
@@ -290,7 +290,7 @@ public class Judge {
                 count++;
             }
         }
-        score += evaluateLineScore(count, empty, block);
+        score = Math.max(evaluateLineScore(count, empty, block), score);
 
         // 【\】 东南方位的点位
         count = 1;
@@ -339,8 +339,7 @@ public class Judge {
                 count++;
             }
         }
-        score += evaluateLineScore(count, empty, block);
-        return score;
+        return Math.max(evaluateLineScore(count, empty, block), score);
     }
 
     /**

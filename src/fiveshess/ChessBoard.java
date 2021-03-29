@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import static javax.swing.SwingConstants.CENTER;
@@ -17,13 +18,14 @@ public class ChessBoard extends JPanel {
 
     private int space = 60;
     public static final int GRIDS_NUM = 15;
-    public static final int DEEP = 2;
     public int rad;
     String message = " ";
     static boolean gameOver = false;
 
     public int[][] chesses = new int[GRIDS_NUM][GRIDS_NUM];
     public LinkedHashMap<String, String> playOrder = new LinkedHashMap<>();
+    // 当前棋局下所有棋子的最小x，最大x，最小y，最大y，用于缩小搜索落子点的范围
+    private static int minx, maxx, miny, maxy;
     public ChessmanEnum chessman = ChessmanEnum.BLACK_CHESS;
     Font font = new Font("雅黑", Font.BOLD, 25);
     JLabel jLabel;
@@ -53,24 +55,19 @@ public class ChessBoard extends JPanel {
                 if (pressedWithinTheScope) {
                     if (chesses[round(x)][round(y)] == 0) {
                         chessman = ChessmanEnum.BLACK_CHESS;
-                        chesses[round(x)][round(y)] = chessman.getCode();
-                        playOrder.put(round(x) + "-" + round(y), String.valueOf(playOrder.size() + 1));
+                        putChess(new Point(round(x), round(y)));
                         repaint();
                         judge(new Point(round(x), round(y)));
                         // AI
                         if (!gameOver) {
-//                            Point point = new AI(chesses).aiPlayer(chessman.next());
                             chessman = chessman.next();
-                            Point point = AI.getBestPoint(chesses, chessman);
-                            chesses[point.getX()][point.getY()] = chessman.getCode();
-                            playOrder.put(point.getX() + "-" + point.getY(), String.valueOf(playOrder.size() + 1));
+                            Point point = AI.bingo(chesses, chessman, playOrder.size());
+                            putChess(point);
                             repaint();
                             judge(point);
                         }
                     }
                 }
-            } else {
-                // JOptionPane.showMessageDialog(null, "GAME OVER");
             }
         }
     };
@@ -316,6 +313,32 @@ public class ChessBoard extends JPanel {
                 }
             }
         }
+    }
+
+    public void putChess(Point point) {
+        int x = point.getX();
+        int y = point.getY();
+        chesses[x][y] = chessman.getCode();
+        playOrder.put(x + "-" + y, String.valueOf(playOrder.size() + 1));
+        minx = Math.min(minx, x);
+        maxx = Math.max(maxx, x);
+        miny = Math.min(miny, y);
+        maxy = Math.max(maxy, y);
+    }
+
+    /**
+     * 生成所有可以落子的点
+     */
+    public static ArrayList<Point> gen(int[][] chessBoard) {
+        ArrayList<Point> points = new ArrayList<>();
+        for (int i = Math.max(minx - 2, 0); i < Math.min(maxx + 2, GRIDS_NUM); i++) {
+            for (int j = Math.max(miny - 2, 0); j < Math.min(maxy + 2, GRIDS_NUM); j++) {
+                if (chessBoard[i][j] == 0) {
+                    points.add(new Point(i, j));
+                }
+            }
+        }
+        return points;
     }
 
     /**
