@@ -9,7 +9,9 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static javax.swing.SwingConstants.CENTER;
 
@@ -22,7 +24,7 @@ public class ChessBoard extends JPanel {
     static boolean gameOver = false;
 
     public int[][] chesses = new int[GRIDS_NUM][GRIDS_NUM];
-    public HashMap<String, String> playOrder = new HashMap<>();
+    public LinkedHashMap<String, String> playOrder = new LinkedHashMap<>();
     public ChessmanEnum chessman = ChessmanEnum.BLACK_CHESS;
     Font font = new Font("雅黑", Font.BOLD, 25);
     JLabel jLabel;
@@ -103,13 +105,20 @@ public class ChessBoard extends JPanel {
         jp.setBackground(Color.white);//设置右边的界面颜色为白色
         jf.add(jp, BorderLayout.EAST);//添加到框架布局的东边部分
 
-        //接下来我们需要把按钮等组件依次加到那个JPanel上面
-        //设置按钮数组
-        JButton button = new JButton("开始游戏");
-        button.setFont(font);
-        button.setPreferredSize(new Dimension(180, 40));
-        button.addActionListener(e -> init());
-        jp.add(button);
+        //设置开始游戏按钮
+        JButton startButton = new JButton("开始游戏");
+        startButton.setFont(font);
+        startButton.setPreferredSize(new Dimension(180, 40));
+        startButton.addActionListener(e -> init());
+        jp.add(startButton);
+
+        //设置悔棋按钮
+        JButton backButton = new JButton("悔棋");
+        backButton.setFont(font);
+        backButton.setPreferredSize(new Dimension(180, 40));
+        backButton.addActionListener(e -> regretChess());
+        jp.add(backButton);
+
         jLabel = new JLabel();
         jp.add(jLabel);
 
@@ -127,6 +136,40 @@ public class ChessBoard extends JPanel {
         gameOver = false;
         repaint();
         jLabel.setText("");
+    }
+
+    /**
+     * 悔棋
+     */
+    public void regretChess() {
+        if (gameOver) {
+            JOptionPane.showMessageDialog(null, "游戏已结束");
+        }
+        if (playOrder.size() <= 2) {
+            JOptionPane.showMessageDialog(null, "首回合不能悔棋");
+            return;
+        }
+        backStep();
+        backStep();
+    }
+
+    public void backStep() {
+
+
+        String key = getTail(playOrder).getKey();
+        playOrder.remove(key);
+        String[] split = key.split("-");
+        chesses[Integer.valueOf(split[0])][Integer.valueOf(split[1])] = 0;
+        repaint();
+    }
+
+    public <K, V> Map.Entry<K, V> getTail(LinkedHashMap<K, V> map) {
+        Iterator<Map.Entry<K, V>> iterator = map.entrySet().iterator();
+        Map.Entry<K, V> tail = null;
+        while (iterator.hasNext()) {
+            tail = iterator.next();
+        }
+        return tail;
     }
 
     /**
