@@ -9,9 +9,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import static javax.swing.SwingConstants.CENTER;
 
@@ -30,7 +28,7 @@ public class ChessBoard extends JPanel {
     JLabel jLabel;
 
     public static void main(String arg[]) {
-        ChessBoard chessPanel = new ChessBoard();
+        new ChessBoard();
     }
 
     /**
@@ -144,6 +142,7 @@ public class ChessBoard extends JPanel {
     public void regretChess() {
         if (gameOver) {
             JOptionPane.showMessageDialog(null, "游戏已结束");
+            return;
         }
         if (playOrder.size() <= 2) {
             JOptionPane.showMessageDialog(null, "首回合不能悔棋");
@@ -154,22 +153,12 @@ public class ChessBoard extends JPanel {
     }
 
     public void backStep() {
-
-
-        String key = getTail(playOrder).getKey();
+        String key = Utils.getTail(playOrder).getKey();
         playOrder.remove(key);
         String[] split = key.split("-");
+        // 移除对应的棋子
         chesses[Integer.valueOf(split[0])][Integer.valueOf(split[1])] = 0;
         repaint();
-    }
-
-    public <K, V> Map.Entry<K, V> getTail(LinkedHashMap<K, V> map) {
-        Iterator<Map.Entry<K, V>> iterator = map.entrySet().iterator();
-        Map.Entry<K, V> tail = null;
-        while (iterator.hasNext()) {
-            tail = iterator.next();
-        }
-        return tail;
     }
 
     /**
