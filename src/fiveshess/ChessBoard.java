@@ -16,7 +16,8 @@ import static javax.swing.SwingConstants.CENTER;
 public class ChessBoard extends JPanel {
 
     private int space = 60;
-    public static int GRIDS_NUM = 15;
+    public static final int GRIDS_NUM = 15;
+    public static final int DEEP = 2;
     public int rad;
     String message = " ";
     static boolean gameOver = false;
@@ -51,13 +52,16 @@ public class ChessBoard extends JPanel {
             if (!gameOver) {
                 if (pressedWithinTheScope) {
                     if (chesses[round(x)][round(y)] == 0) {
+                        chessman = ChessmanEnum.BLACK_CHESS;
                         chesses[round(x)][round(y)] = chessman.getCode();
                         playOrder.put(round(x) + "-" + round(y), String.valueOf(playOrder.size() + 1));
                         repaint();
                         judge(new Point(round(x), round(y)));
                         // AI
                         if (!gameOver) {
-                            Point point = new AI(chesses).aiPlayer(chessman.next());
+//                            Point point = new AI(chesses).aiPlayer(chessman.next());
+                            chessman = chessman.next();
+                            Point point = AI.getBestPoint(chesses, chessman);
                             chesses[point.getX()][point.getY()] = chessman.getCode();
                             playOrder.put(point.getX() + "-" + point.getY(), String.valueOf(playOrder.size() + 1));
                             repaint();
@@ -328,7 +332,5 @@ public class ChessBoard extends JPanel {
             JOptionPane.showMessageDialog(null, sb.toString());
             jLabel.setText(chessman.getName() + "获胜");
         }
-        // 还手
-        chessman = chessman.next();
     }
 }

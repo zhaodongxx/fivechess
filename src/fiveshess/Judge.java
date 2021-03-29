@@ -101,6 +101,30 @@ public class Judge {
     }
 
     /**
+     * 对局势进行评估。
+     *
+     * @param chessBoard
+     * @param chessmanEnum
+     * @return
+     */
+    public static int evaluate(int[][] chessBoard, ChessmanEnum chessmanEnum) {
+        int blackScore = 0;
+        int whiteScore = 0;
+        for (int i = 0; i < ChessBoard.GRIDS_NUM; i++) {
+            for (int j = 0; j < ChessBoard.GRIDS_NUM; j++) {
+                if (chessBoard[i][j] == ChessmanEnum.BLACK_CHESS.getCode()) {
+                    blackScore += evaluatePoint(chessBoard, i, j, ChessmanEnum.BLACK_CHESS);
+                }
+                if (chessBoard[i][j] == ChessmanEnum.WHITE_CHESS.getCode()) {
+                    whiteScore += evaluatePoint(chessBoard, i, j, ChessmanEnum.WHITE_CHESS);
+                }
+            }
+        }
+
+        return (chessmanEnum == ChessmanEnum.BLACK_CHESS ? 1 : -1) * (blackScore - whiteScore);
+    }
+
+    /**
      * 评估指定位置棋子的分数，分数越高说明该位置越好
      *
      * @param board        棋盘数组
